@@ -10,23 +10,23 @@ and estimated remaining time.
 
 == Examples
 
-  % irb --simple-prompt -r progressbar
-  >> pbar = ProgressBar.new("test", 100)
+  % irb -r rtui
+  >> pbar = Progress.new("test", 100)
   >> 100.times {sleep(0.1); pbar.inc}; pbar.finish  
   test:          100% |========================================| Time: 00:00:10
 
 
-  >> pbar = ProgressBar.new("test", 100, :components => [:bar, :percentage])
+  >> pbar = Progress.new("test", 100, :components => [:bar, :percentage])
   >> 100.times {sleep(0.1); pbar.inc}; pbar.finish
   |======================================================================| 100% 
 
 
-  >> pbar = ProgressBar.new("test", 100, :bar => "_")
+  >> pbar = Progress.new("test", 100, :bar => "_")
   >> (1..100).each{|x| sleep(0.1); pbar.set(x)}; pbar.finish
   test:           67% |__________________________              | ETA:  00:00:03
   
 
-  >> pbar = ProgressBar.new("test", 100, :components => [:spinner, :percentage])
+  >> pbar = Progress.new("test", 100, :components => [:spinner, :percentage])
   >> 100.times {sleep(0.1); pbar.inc}; pbar.finish  
   \    100%
 
