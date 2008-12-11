@@ -50,6 +50,17 @@ under the terms of Ruby's license.
     The display of the progress bar is updated when one or
     more percent is proceeded or one or more seconds are
     elapsed from the previous display.
+    
+=== Options:
+
+    { :bar => "=", :out => STDERR, :components => [
+      :title,
+      :bar,    
+      :spinner,
+      :percentage,
+      :stat
+    ]}
+
 
 === ProgressBar#inc (step = 1)
     Increase the internal counter by ((|step|)) and update
@@ -73,10 +84,6 @@ under the terms of Ruby's license.
     Stop the progress bar and update the display of progress
     bar. Display the elapsed time on the right side of the bar.
     The progress bar stops at the current percentage by the method.
-
-=== ProgressBar#format=
-    Set the format for displaying a progress bar.
-    Default: "%-14s %3d%% %s %s".
 
 === ProgressBar#format_arguments=
     Set the methods for displaying a progress bar.
@@ -107,12 +114,11 @@ accurately performed if the progress does not flow uniformly.
  
 === Original Gem
 
-   * ((<URL:http://namazu.org/~satoru/ruby-progressbar/ruby-progressbar-0.9.tar.gz>))
-   * ((<URL:http://cvs.namazu.org/ruby-progressbar/>))
+   * http://namazu.org/~satoru/ruby-progressbar/ruby-progressbar-0.9.tar.gz
+   * http://cvs.namazu.org/ruby-progressbar
 
- --
-
- - ((<Satoru Takabayashi|URL:http://namazu.org/~satoru/>)) -
+ Satoru Takabayashi 
+ http://namazu.org/~satoru
  
 
  Copyright (C) 2001-2005 Satoru Takabayashi <satoru@namazu.org>

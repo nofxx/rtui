@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe "Progress Bar" do
   
-  describe "Visual tests" do
+  describe "Visual tests =D" do
   
 
     SleepUnit = 0.01
@@ -17,14 +17,13 @@ describe "Progress Bar" do
       pbar = Rtui::Progress.new("test(inc)", total, 
         :components => [:spinner, :percentage,  :stat])
       total.times {
-        sleep(0.1)
+        sleep(0.01)
         pbar.inc
       }
       pbar.finish
-          
-      
+                
     end
-
+    
     
     it "different bar" do
       
@@ -50,7 +49,7 @@ describe "Progress Bar" do
       }
       pbar.finish
     end
-
+    # 
     # it "should clear" do
     #   total = 100
     #   pbar = do_make_progress_bar("test(clear)", total)

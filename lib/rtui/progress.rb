@@ -25,10 +25,28 @@ module Rtui
     attr_accessor :start_time
   
     #
-    # A Spinner with just percentage:
+    # Initializes a progress indicator.
     #
+    # Examples:
+    #
+    # Just a bar and ETA:
+    # Rtui::Progress.new("Foo", 10, { :components => [:bar, :stat]})
+    #
+    # A Spinner with just percentage:
     # Rtui::Progress.new("Foo", 10, { :components => [:spinner, :percentage]})
-    #  
+    #
+    # 
+    # Options:
+    # - bar => "=" 
+    # - out => STDERR 
+    # 
+    # Components:
+    # - title
+    # - spinner
+    # - percentage
+    # - stat
+    # - bar
+    #
     def initialize (title, total, *options)
       options = options.first || {}
       @title = title
@@ -36,7 +54,7 @@ module Rtui
       @terminal_width = 80
       @current = 0
       @previous = 0
-      @finished_p = false
+      @finished = false
       @start_time = Time.now
       @previous_time = @start_time
       @title_width = 14
@@ -51,23 +69,22 @@ module Rtui
     end
 
     def clear
-      @out.print "\r"
-      @out.print(" " * (get_width - 1))
-      @out.print "\r"
+      @out.print "\r#{(" " * (get_width - 1))}\r"
     end
 
     def finish
       @current = @total
-      @finished_p = true
+      @finished = true
       show
     end
 
     def finished?
-      @finished_p
+      @finished
     end
 
     def file_transfer_mode
-      @components = [:title, :percentage, :bar, :stat_for_file_transfer]
+      return unless @components.index(:stat)
+      @components[@components.index(:stat)] = :stat_for_file_transfer
     end
 
     def format= (format)
@@ -79,7 +96,7 @@ module Rtui
     end
 
     def halt
-      @finished_p = true
+      @finished = true
       show
     end
 
@@ -100,7 +117,7 @@ module Rtui
     end
 
     def inspect
-      "#<Rtui::ProgressBar:#{@current}/#{@total}>"
+      "#<Rtui::Progress:#{@current}/#{@total}>"
     end
   
     
@@ -116,8 +133,8 @@ module Rtui
     
     def fmt_spinner
       bar_width = do_percentage * @terminal_width / 100
-      sprintf(" %s%s|", 
-           '/-\\|'[do_percentage%4].chr ,
+      sprintf(" %s%s ", 
+           do_percentage == 100 ? " " : '/-\\|'[do_percentage%4].chr ,
               " " *  (@terminal_width / 100) ) 
     end
     
@@ -127,7 +144,7 @@ module Rtui
     end
 
     def fmt_stat
-      @finished_p ? elapsed : eta
+      @finished ? elapsed : eta
     end
 
     def fmt_stat_for_file_transfer
@@ -183,7 +200,7 @@ module Rtui
     end
 
     def eol
-      @finished_p ? "\n" : "\r"
+      @finished ? "\n" : "\r"
     end
 
     def do_percentage
@@ -238,7 +255,7 @@ module Rtui
 
       # Use "!=" instead of ">" to support negative changes
       if cur_percentage != prev_percentage || 
-          Time.now - @previous_time >= 1 || @finished_p
+          Time.now - @previous_time >= 1 || @finished
         show
       end
       
