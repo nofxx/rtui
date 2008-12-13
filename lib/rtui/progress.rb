@@ -1,4 +1,9 @@
 #
+#
+#
+#
+# Original code:
+#
 # Ruby/ProgressBar - a text progress bar library  VERSION = "0.9"
 #
 # Copyright (C) 2001-2005 Satoru Takabayashi <satoru@namazu.org>
@@ -87,9 +92,9 @@ module Rtui
       @components[@components.index(:stat)] = :stat_for_file_transfer
     end
 
-    def format= (format)
-      @format = format
-    end
+    # def format= (format)
+    #   @format = format
+    # end
 
     def components= (arguments)
       @components = arguments
@@ -127,17 +132,23 @@ module Rtui
     def fmt_bar
       bar_width = do_percentage * @terminal_width / 100
       sprintf("|%s%s|", 
-              @bar_mark * bar_width, 
-              " " *  (@terminal_width - bar_width))
+        @bar_mark * bar_width, 
+        " " *  (@terminal_width - bar_width))
     end
     
     def fmt_spinner
       bar_width = do_percentage * @terminal_width / 100
       sprintf(" %s%s ", 
-           do_percentage == 100 ? " " : '/-\\|'[do_percentage%4].chr ,
-              " " *  (@terminal_width / 100) ) 
+        do_percentage == 100 ? " " : '/-\\|'[do_percentage%4].chr ,
+        " " *  (@terminal_width / 100) ) 
     end
     
+    def fmt_pong
+      bar_width = do_percentage * @terminal_width / 100
+      sprintf("|%s%s|", 
+        " " * bar_width + @bar_mark, 
+        " " *  (@terminal_width - bar_width))
+    end
     
     def fmt_percentage
       "%3d%%" % do_percentage

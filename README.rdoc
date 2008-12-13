@@ -1,34 +1,47 @@
 = Rtui
 
+This gem goal is to provide TUI eye candy for ruby. Think HighLine extras...
 
+For now, we got:
 
-From Ruby/ProgressBar: A Text Progress Bar Library for Ruby
+From Ruby/ProgressBar by Satoru Takabayashi 
 
 Ruby/ProgressBar is a text progress bar library for Ruby.
 It can indicate progress with percentage, a progress bar,
 and estimated remaining time.
 
+This fork changes the initializer to be a lil more rails like and add the spinner and pong formatters. 
+
 == Examples
 
-  % irb -r rtui
-  >> pbar = Progress.new("test", 100)
-  >> 100.times {sleep(0.1); pbar.inc}; pbar.finish  
+  pbar = Rtui::Progress.new("test", 100)
+  100.times {sleep(0.1); pbar.inc}; pbar.finish  
+  
   test:          100% |========================================| Time: 00:00:10
 
 
-  >> pbar = Progress.new("test", 100, :components => [:bar, :percentage])
-  >> 100.times {sleep(0.1); pbar.inc}; pbar.finish
+  pbar = Rtui::Progress.new("test", 100, :components => [:bar, :percentage])
+  100.times {sleep(0.1); pbar.inc}; pbar.finish
+  
   |======================================================================| 100% 
 
 
-  >> pbar = Progress.new("test", 100, :bar => "_")
-  >> (1..100).each{|x| sleep(0.1); pbar.set(x)}; pbar.finish
+  pbar = Rtui::Progress.new("test", 100, :bar => "_")
+  (1..100).each{|x| sleep(0.1); pbar.set(x)}; pbar.finish
+  
   test:           67% |__________________________              | ETA:  00:00:03
   
 
-  >> pbar = Progress.new("test", 100, :components => [:spinner, :percentage])
-  >> 100.times {sleep(0.1); pbar.inc}; pbar.finish  
-  \    100%
+  pbar = Progress.new("test", 100, :components => [:spinner, :percentage])
+  100.times {sleep(0.1); pbar.inc}; pbar.finish  
+  
+  \                                                                        100%
+  
+  pbar = Progress.new("foo", 100, :bar => "o", :components => [:pong, :percentage])
+  (1..100).each{|x| sleep(0.1); pbar.set(x)}; pbar.finish
+  
+  |                                         o                            |  67%
+
 
 == Install
 
@@ -41,11 +54,11 @@ under the terms of Ruby's license.
     
 == API
 
-=== ProgressBar#new (title, total, *options)
+=== Progress#new (title, total, *options)
     Display the initial progress bar and return a
     ProgressBar object.  ((|title|)) specifies the title,
     and ((|total|)) specifies the total cost of processing.
-    Optional parameter ((|out|)) specifies the output IO.
+    Options parameter ((|:out|)) specifies the output IO.
 
     The display of the progress bar is updated when one or
     more percent is proceeded or one or more seconds are
@@ -57,45 +70,46 @@ under the terms of Ruby's license.
       :title,
       :bar,    
       :spinner,
+      :pong,
       :percentage,
       :stat
     ]}
 
 
-=== ProgressBar#inc (step = 1)
+=== Progress#inc (step = 1)
     Increase the internal counter by ((|step|)) and update
     the display of the progress bar. Display the estimated
     remaining time on the right side of the bar. The counter
     does not go beyond the ((|total|)).
 
-=== ProgressBar#set (count)
+=== Progress#set (count)
     Set the internal counter to ((|count|)) and update the
     display of the progress bar. Display the estimated
     remaining time on the right side of the bar.  Raise if
     ((|count|)) is a negative number or a number more than
     the ((|total|)).
 
-=== ProgressBar#finish
+=== Progress#finish
     Stop the progress bar and update the display of progress
     bar. Display the elapsed time on the right side of the bar.
     The progress bar always stops at 100 % by the method.
 
-=== ProgressBar#halt
+=== Progress#halt
     Stop the progress bar and update the display of progress
     bar. Display the elapsed time on the right side of the bar.
     The progress bar stops at the current percentage by the method.
 
-=== ProgressBar#format_arguments=
+=== Progress#format_arguments=
     Set the methods for displaying a progress bar.
     Default: [:title, :percentage, :bar, :stat].
 
-=== ProgressBar#file_transfer_mode
+=== Progress#file_transfer_mode
     Use  :stat_for_file_transfer instead of :stat to display
     transfered bytes and transfer rate.
 
 
-ReverseProgressBar class is also available.  The
-functionality is identical to ProgressBar but the direction
+ReverseProgress class is also available.  The
+functionality is identical to Progress but the direction
 of the progress bar is just opposite.
 
 

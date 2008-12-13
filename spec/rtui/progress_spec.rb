@@ -1,9 +1,13 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe "Progress Bar" do
-  
-  describe "Visual tests =D" do
-  
+
+
+  #
+  # Ok. Need real tests. 
+  # But this REALLY works =D
+  #
+  describe "Visual tests" do
 
     SleepUnit = 0.01
 
@@ -11,34 +15,38 @@ describe "Progress Bar" do
       Rtui::Progress.new(title, total)
     end
     
+    it "should pong" do
+      total = 100
+      pbar = Rtui::Progress.new("test(inc)", total, :bar => "o",
+        :components => [:pong, :percentage])
+      total.times { sleep(0.01); pbar.inc }
+      pbar.finish
+    end
+    
     it "should spin!" do
-      
       total = 100
       pbar = Rtui::Progress.new("test(inc)", total, 
         :components => [:spinner, :percentage,  :stat])
-      total.times {
-        sleep(0.01)
-        pbar.inc
-      }
-      pbar.finish
-                
+      total.times { sleep(0.01); pbar.inc }
+      pbar.finish   
     end
     
-    
     it "different bar" do
-      
       total = 100
       pbar = Rtui::Progress.new("test(inc)", total, :bar => "_",
         :components => [  :stat, :bar, :percentage])
-      total.times {
-        sleep(SleepUnit)
-        pbar.inc
-      }
+      total.times { sleep(SleepUnit); pbar.inc }
       pbar.finish
-          
-      
     end
     
+    it "should spin 2!" do
+      total = 100
+      pbar = Rtui::Progress.new("test(inc)", total, 
+        :components => [:spinner, :percentage])
+      total.times { sleep(0.05); pbar.inc }
+      pbar.finish   
+    end
+        
     it "should handle bytes" do
       total = 1024 * 1024
       pbar = do_make_progress_bar("test(bytes)", total)
