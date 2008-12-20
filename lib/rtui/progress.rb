@@ -63,6 +63,7 @@ module Rtui
       @start_time = Time.now
       @previous_time = @start_time
       @title_width = 14
+      @subject = ""
 
       @out        = options[:out] || STDERR
       @bar_mark   = options[:bar] || "="
@@ -100,6 +101,10 @@ module Rtui
       @components = arguments
     end
 
+    def subject=(subject)
+      @subject = subject
+    end
+
     def halt
       @finished = true
       show
@@ -128,7 +133,10 @@ module Rtui
     
     private
   
-  
+    def fmt_subject
+      "   " + @subject + ( " " * (@terminal_width - @subject.length))
+    end
+
     def fmt_bar
       bar_width = do_percentage * @terminal_width / 100
       sprintf("|%s%s|", 
@@ -221,6 +229,10 @@ module Rtui
 
     def get_width
       # FIXME: I don't know how portable it is.
+      # 
+      # Works linux...
+      # Fails OSX
+      #
       default_width = 80
       begin
         tiocgwinsz = 0x5413

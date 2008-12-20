@@ -43,7 +43,7 @@ describe "Progress Bar" do
       total = 100
       pbar = Rtui::Progress.new("test(inc)", total, 
         :components => [:spinner, :percentage])
-      total.times { sleep(0.05); pbar.inc }
+      total.times { sleep(0.01); pbar.inc }
       pbar.finish   
     end
         
@@ -56,6 +56,15 @@ describe "Progress Bar" do
         sleep(SleepUnit)
       }
       pbar.finish
+ 
+    end
+
+    it "should show a subject!" do
+      total = 100
+      pbar = Rtui::Progress.new("test(inc)", total, 
+              :components => [:spinner, :percentage, :subject, :stat])
+      total.times { |i| sleep(0.1); pbar.subject = "inter #{i} times!!!"; pbar.inc }
+      pbar.finish   
     end
     # 
     # it "should clear" do

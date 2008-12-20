@@ -1,52 +1,46 @@
-= Rtui
+     ______ _______ _______ _______ 
+    |   __ \_     _|   |   |_     _|
+    |      < |   | |   |   |_|   |_ 
+    |___|__| |___| |_______|_______|
 
-This gem goal is to provide TUI eye candy for ruby. Think HighLine extras...
+This gem goal is to provide TUI eye candy for ruby.
 
 For now, we got:
 
-From Ruby/ProgressBar by Satoru Takabayashi 
+* From Ruby/ProgressBar by Satoru Takabayashi 
 
 Ruby/ProgressBar is a text progress bar library for Ruby.
 It can indicate progress with percentage, a progress bar,
 and estimated remaining time.
+This fork changes the api and adds some methods. 
 
-This fork changes the initializer to be a lil more rails like and add the spinner and pong formatters. 
 
 == Examples
 
   pbar = Rtui::Progress.new("test", 100)
   100.times {sleep(0.1); pbar.inc}; pbar.finish  
   
-  test:          100% |========================================| Time: 00:00:10
+  test: 100% |===============================================| Time: 00:00:10
 
 
   pbar = Rtui::Progress.new("test", 100, :components => [:bar, :percentage])
   100.times {sleep(0.1); pbar.inc}; pbar.finish
   
-  |======================================================================| 100% 
+  |====================================================================| 100% 
 
 
-  pbar = Rtui::Progress.new("test", 100, :bar => "_")
-  (1..100).each{|x| sleep(0.1); pbar.set(x)}; pbar.finish
+  pbar = Progress.new("test", 100, :components => [:spinner, :subject, :percentage])
+  100.times { |i| sleep(0.1); pbar.subject = "Iteration #{i}.."; pbar.inc}; pbar.finish  
   
-  test:           67% |__________________________              | ETA:  00:00:03
-  
-
-  pbar = Progress.new("test", 100, :components => [:spinner, :percentage])
-  100.times {sleep(0.1); pbar.inc}; pbar.finish  
-  
-  \                                                                        100%
+  \      Iteration 68                                                     68%
   
   pbar = Progress.new("foo", 100, :bar => "o", :components => [:pong, :percentage])
   (1..100).each{|x| sleep(0.1); pbar.set(x)}; pbar.finish
   
-  |                                         o                            |  67%
+  |                                       o                            |  67%
 
 
 == Install
-
-Ruby/ProgressBar is a free software with ABSOLUTELY NO WARRANTY
-under the terms of Ruby's license.
 
   sudo gem sources --add http://gems.github.com
   sudo gem install nofxx-rtui
@@ -70,6 +64,7 @@ under the terms of Ruby's license.
       :title,
       :bar,    
       :spinner,
+      :subject,
       :pong,
       :percentage,
       :stat
@@ -88,6 +83,9 @@ under the terms of Ruby's license.
     remaining time on the right side of the bar.  Raise if
     ((|count|)) is a negative number or a number more than
     the ((|total|)).
+
+=== Progress#subject (subject)
+    Set the bar current subject.
 
 === Progress#finish
     Stop the progress bar and update the display of progress
