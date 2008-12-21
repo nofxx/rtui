@@ -134,7 +134,11 @@ module Rtui
     private
   
     def fmt_subject
-      "   " + @subject + ( " " * (@terminal_width - @subject.length))
+      @subject ||= ""
+      blank = @terminal_width - @subject.length
+      out = "   " + @subject 
+      out <<  " " * blank if blank > 0
+      out[0, @terminal_width - 5]
     end
 
     def fmt_bar
@@ -195,7 +199,7 @@ module Rtui
       convert_bytes(@current)
     end
 
-    def format_time (t)
+    def format_time t
       t = t.to_i
       sec = t % 60
       min  = (t / 60) % 60

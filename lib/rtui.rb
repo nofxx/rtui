@@ -5,5 +5,5 @@ require 'rtui/progress'
 
 
 module Rtui
-  VERSION = '0.1.1'
+  VERSION = '0.1.8'
 end
