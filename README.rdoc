@@ -42,8 +42,7 @@ This fork changes the api and adds some methods.
 
 == Install
 
-  sudo gem sources --add http://gems.github.com
-  sudo gem install nofxx-rtui
+  sudo gem install rtui
     
     
 == API
