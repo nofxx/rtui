@@ -9,11 +9,8 @@ begin
     gem.email = "see@github"
     gem.homepage = "http://github.com/nofxx/rtui"
     gem.authors = ["Marcos Augusto"]
-    gem.add_dependency 'rspec' # ,'>=1.1.11'],
-    gem.add_dependency 'rtui' #,'>= 0.1.8']
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.add_development_dependency 'rspec'
   end
-
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
