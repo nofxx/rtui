@@ -3,6 +3,7 @@
     |      < |   | |   |   |_|   |_ 
     |___|__| |___| |_______|_______|
 
+
 This gem goal is to provide TUI eye candy for ruby.
 
 For now, we got:
@@ -17,13 +18,13 @@ This fork changes the api and adds some methods.
 
 == Examples
 
-  pbar = Rtui::Progress.new("test", 100)
+  pbar = RTUI::Progress.new("test", 100)
   100.times {sleep(0.1); pbar.inc}; pbar.finish  
   
   test: 100% |===============================================| Time: 00:00:10
 
 
-  pbar = Rtui::Progress.new("test", 100, :components => [:bar, :percentage])
+  pbar = RTUI::Progress.new("test", 100, :components => [:bar, :percentage])
   100.times {sleep(0.1); pbar.inc}; pbar.finish
   
   |====================================================================| 100% 

@@ -1,9 +1,4 @@
 #
-#
-#
-#
-# Original code:
-#
 # Ruby/ProgressBar - a text progress bar library  VERSION = "0.9"
 #
 # Copyright (C) 2001-2005 Satoru Takabayashi <satoru@namazu.org>
@@ -13,13 +8,13 @@
 # You can redistribute it and/or modify it under the terms
 # of Ruby's license.
 #
-# 
-# 
+#
+#
 #require 'rtui/progress/bar'
 #require 'rtui/progress/spinner'
 
-module Rtui
-  
+module RTUI
+
   #
   #  Progress indicators
   #
@@ -28,23 +23,23 @@ module Rtui
     attr_reader   :current
     attr_reader   :total
     attr_accessor :start_time
-  
+
     #
     # Initializes a progress indicator.
     #
     # Examples:
     #
     # Just a bar and ETA:
-    # Rtui::Progress.new("Foo", 10, { :components => [:bar, :stat]})
+    # RTUI::Progress.new("Foo", 10, { :components => [:bar, :stat]})
     #
     # A Spinner with just percentage:
-    # Rtui::Progress.new("Foo", 10, { :components => [:spinner, :percentage]})
+    # RTUI::Progress.new("Foo", 10, { :components => [:spinner, :percentage]})
     #
-    # 
+    #
     # Options:
-    # - bar => "=" 
-    # - out => STDERR 
-    # 
+    # - bar => "="
+    # - out => STDERR
+    #
     # Components:
     # - title
     # - spinner
@@ -127,41 +122,41 @@ module Rtui
     end
 
     def inspect
-      "#<Rtui::Progress:#{@current}/#{@total}>"
+      "#<RTUI::Progress:#{@current}/#{@total}>"
     end
-  
-    
+
+
     private
-  
+
     def fmt_subject
       @subject ||= ""
       blank = @terminal_width - @subject.length
-      out = "   " + @subject 
+      out = "   " + @subject
       out <<  " " * blank if blank > 0
       out[0, @terminal_width - 5]
     end
 
     def fmt_bar
       bar_width = do_percentage * @terminal_width / 100
-      sprintf("|%s%s|", 
-        @bar_mark * bar_width, 
+      sprintf("|%s%s|",
+        @bar_mark * bar_width,
         " " *  (@terminal_width - bar_width))
     end
-    
+
     def fmt_spinner
       bar_width = do_percentage * @terminal_width / 100
-      sprintf(" %s%s ", 
+      sprintf(" %s%s ",
         do_percentage == 100 ? " " : '/-\\|'[do_percentage%4].chr ,
-        " " *  (@terminal_width / 100) ) 
+        " " *  (@terminal_width / 100) )
     end
-    
+
     def fmt_pong
       bar_width = do_percentage * @terminal_width / 100
-      sprintf("|%s%s|", 
-        " " * bar_width + @bar_mark, 
+      sprintf("|%s%s|",
+        " " * bar_width + @bar_mark,
         " " *  (@terminal_width - bar_width))
     end
-    
+
     def fmt_percentage
       "%3d%%" % do_percentage
     end
@@ -233,7 +228,7 @@ module Rtui
 
     def get_width
       # FIXME: I don't know how portable it is.
-      # 
+      #
       # Works linux...
       # Fails OSX
       #
@@ -253,12 +248,12 @@ module Rtui
     end
 
     def show
-      line = @components.map {|method| 
+      line = @components.map {|method|
         send(sprintf("fmt_%s", method))
       }.join " "
 
       width = get_width
-      if line.length == width - 1 
+      if line.length == width - 1
         @out.print(line + eol)
         @out.flush
       elsif line.length >= width
@@ -281,21 +276,21 @@ module Rtui
       end
 
       # Use "!=" instead of ">" to support negative changes
-      if cur_percentage != prev_percentage || 
+      if cur_percentage != prev_percentage ||
           Time.now - @previous_time >= 1 || @finished
         show
       end
-      
+
     end
 
   end
 
   class ReversedProgress < Progress
-    
+
     def do_percentage
       100 - super
     end
-    
+
   end
-  
+
 end

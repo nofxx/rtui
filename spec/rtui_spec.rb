@@ -2,10 +2,10 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 
 # Time to add your specs!
 # http://rspec.info/
-describe "Place your specs here" do
-  
-  it "find this spec in spec directory" do
-     "Be sure to write your specs"
+describe RTUI do
+
+  it "should define RTUI" do
+     RTUI::Progress.should be_a Class
   end
-  
+
 end

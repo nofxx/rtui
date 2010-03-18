@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+require "rubygems"
+
+BANNER = <<BANNER
+RTUI - Eye candy for ruby command line apps.
+
+  install   -    Dumps rtui to a single file for standalone use.
+
+BANNER
+
+FILES = ["progress", "dump", "table"]
+ME = "rtui"
+
+class CLI
+  def self.install
+    out = FILES.map do |file|
+      read = File.read(Gem.required_location(ME, "#{ME}/#{file}.rb"))
+      read.gsub!(/^\s*#.*\n/, "")
+      read.gsub!(/^\s*\n/, "")
+    end
+    puts out
+
+  end
+end
+
+if ARGV.empty? || !CLI.respond_to?(ARGV[0])
+  puts BANNER
+else
+  CLI.send(ARGV[0])
+end
+

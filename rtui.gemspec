@@ -10,7 +10,9 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Augusto"]
   s.date = %q{2010-03-18}
+  s.default_executable = %q{rtui}
   s.email = %q{see@github}
+  s.executables = ["rtui"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
      "README.rdoc"
@@ -19,21 +21,16 @@ Gem::Specification.new do |s|
     ".gitignore",
      "History.txt",
      "LICENSE.txt",
-     "Manifest.txt",
      "README.rdoc",
      "Rakefile",
+     "VERSION",
      "lib/rtui.rb",
      "lib/rtui/progress.rb",
-     "rspec.rake",
      "rtui.gemspec",
-     "script/console",
-     "script/destroy",
-     "script/generate",
      "spec/rtui/progress_spec.rb",
      "spec/rtui_spec.rb",
      "spec/spec.opts",
-     "spec/spec_helper.rb",
-     "tasks/rspec.rake"
+     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/nofxx/rtui}
   s.rdoc_options = ["--charset=UTF-8"]
