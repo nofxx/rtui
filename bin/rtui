@@ -5,6 +5,7 @@ BANNER = <<BANNER
 RTUI - Eye candy for ruby command line apps.
 
   install   -    Dumps rtui to a single file for standalone use.
+  help      -    Prints RTUI Readme.
 
 BANNER
 
@@ -15,11 +16,17 @@ class CLI
   def self.install
     out = FILES.map do |file|
       read = File.read(Gem.required_location(ME, "#{ME}/#{file}.rb"))
-      read.gsub!(/^\s*#.*\n/, "")
-      read.gsub!(/^\s*\n/, "")
+      read.gsub!(/module RTUI|^end|/, "") # Remove bunch of modules and ends
+      read.gsub!(/^\s*#.*\n|^\s*\n/, "")  # Remove comments and empty lines
     end
-    puts out
+    File.open('rtui.rb', 'w') do |f|
+      f.write("#\n# RTUI  -  http://github.com/nofxx/rtui\n#\nmodule RTUI\n#{out}end\n")
+    end
+    puts "RTUI copied to ./rtui.rb (#{File.size('rtui.rb')/1000}Kb). Have fun!"
+  end
 
+  def self.help
+    puts File.read(Gem.required_location('rtui', 'rtui.rb').gsub(/lib\/rtui.rb/, "README.rdoc"))
   end
 end
 
