@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rtui}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Augusto"]
@@ -29,8 +29,10 @@ Gem::Specification.new do |s|
      "lib/rtui/dump.rb",
      "lib/rtui/progress.rb",
      "lib/rtui/table.rb",
+     "lib/rtui/tty.rb",
      "rtui.gemspec",
      "spec/rtui/progress_spec.rb",
+     "spec/rtui/table_spec.rb",
      "spec/rtui_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
@@ -41,7 +43,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Set of tools for TUI Eye Candy}
   s.test_files = [
-    "spec/rtui/progress_spec.rb",
+    "spec/rtui/table_spec.rb",
+     "spec/rtui/progress_spec.rb",
      "spec/rtui_spec.rb",
      "spec/spec_helper.rb"
   ]

@@ -9,12 +9,9 @@
 # of Ruby's license.
 #
 #
-#
 #require 'rtui/progress/bar'
 #require 'rtui/progress/spinner'
-
 module RTUI
-
   #
   #  Progress indicators
   #
@@ -60,7 +57,7 @@ module RTUI
       @title_width = 14
       @subject = ""
 
-      @out        = options[:out] || STDERR
+      @out        = options[:out] || STDOUT
       @bar_mark   = options[:bar] || "="
       @colors     = options[:colors] || false
       @components = options[:components] || [:title, :percentage, :bar, :stat]
@@ -70,7 +67,7 @@ module RTUI
     end
 
     def clear
-      @out.print "\r#{(" " * (get_width - 1))}\r"
+      @out.print "\r#{(" " * (TTY.get_width - 1))}\r"
     end
 
     def finish
@@ -226,33 +223,12 @@ module RTUI
       @current  * 100 / @total
     end
 
-    def get_width
-      # FIXME: I don't know how portable it is.
-      #
-      # Works linux...
-      # Fails OSX
-      #
-      default_width = 80
-      begin
-        tiocgwinsz = 0x5413
-        data = [0, 0, 0, 0].pack("SSSS")
-        if @out.ioctl(tiocgwinsz, data) >= 0 then
-          rows, cols, xpixels, ypixels = data.unpack("SSSS")
-          if cols >= 0 then cols else default_width end
-        else
-          default_width
-        end
-      rescue Exception
-        default_width
-      end
-    end
-
     def show
       line = @components.map {|method|
         send(sprintf("fmt_%s", method))
       }.join " "
 
-      width = get_width
+      width = TTY.get_width
       if line.length == width - 1
         @out.print(line + eol)
         @out.flush

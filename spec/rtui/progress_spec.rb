@@ -62,7 +62,7 @@ describe "Progress Bar" do
       total = 100
       pbar = RTUI::Progress.new("test(inc)", total,
               :components => [:spinner, :percentage, :subject, :stat])
-      total.times { |i| sleep(0.05); pbar.subject = "inter #{i} times!!!"; pbar.inc }
+      total.times { |i| sleep(0.01); pbar.subject = "inter #{i} times!!!"; pbar.inc }
       pbar.subject = "finish it"
       pbar.finish
     end
